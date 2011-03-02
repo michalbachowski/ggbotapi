@@ -30,11 +30,6 @@ class MessageBuilderTestCase(BaseTestCase):
     """
     Test cases for MessageBuilder class
     """
-    correctLogin = '1'
-    correctPass = 'ok_pass'
-
-    incorrectLogin = 'error'
-    incorrectPass = 'error_pass'
 
     def setUp(self):
         BaseTestCase.setUp(self)

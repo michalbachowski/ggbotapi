@@ -17,42 +17,21 @@ __author__ = "mib"
 __date__ = "$2011-01-23 14:57:14$"
 
 import unittest
-import psycopg2
-from pigeon.api.db import Connection, Cursor
 from mockito import *
 
+from ggbotapi.lib_2_1.authentication import Authentication
+from ggbotapi.lib_2_1.botmaster import Client, CommunicationAdapter
 
-class BaseMockTestCase(unittest.TestCase):
+
+class BaseTestCase(unittest.TestCase):
     """
     Base class for test cases that uses Mocks
     """
 
     def setUp(self):
-        self._db = mock(Connection)
-        self._cursor = mock(Cursor)
-        when(self._db).cursor().thenReturn(self._cursor)
-
-    def checkDbCall(self, thenReturn, method, procedure, params):
-        try:
-            # stub
-            when(self._cursor).fetchone().thenReturn(thenReturn)
-            # test
-            method(self)
-            # verify
-            inorder.verify(self._cursor).callproc(procedure,params)
-            inorder.verify(self._cursor).fetchone()
-        except VerificationError, e:
-            self.fail(e.message)
-
-
-class BaseTestCase(unittest.TestCase):
-    """
-    Base class for test cases
-    """
-
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
+        self.botmaster = mock(Client)
+        self.adapter = mock(CommunicationAdapter)
+        self.auth = mock(Authentication)
+        when(self.botmaster).auth().thenReturn(self.auth)
+        when(self.botmaster).adapter().thenReturn(self.adapter)
 

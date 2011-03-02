@@ -14,27 +14,37 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 __author__ = "mib"
-__date__ = "$2011-01-23 14:02:16$"
+__date__ = "$2011-03-23 14:02:16$"
+
+import base64
+
 import unittest
+from mockito import *
+
+from ggbotapi.lib_2_1.authentication import *
+from ggbotapi.lib_2_1.message import MessageBuilder
+from ggbotapi.lib_2_1.botmaster import *
 
 from base import BaseTestCase
 
 
-class AuthenticationTestCase(BaseTestCase):
+class BotmasterTestCase(BaseTestCase):
     """
-    Test cases for Authentication class
+    Test cases for Botmaster module
     """
-
-    incorrectBotId = 123
-    incorrectLogin = 'error'
-    incorrectPass = 'error_pass'
 
     def setUp(self):
         BaseTestCase.setUp(self)
 
-    def testCorrectAuthentication(self):
-        """Tests response to correct authentication"""
-        self.assertTrue(self.auth.is_valid())
+    def test_send(self):
+        message = MessageBuilder()
+        message.add_text('tests')
+        self.botmaster.send(message,[8714989],False)
+
+    def test_set_status(self):
+        message = MessageBuilder()
+        message.add_text('tests')
+        self.botmaster.send(message,[8714989],False)
 
 
 if __name__ == "__main__":

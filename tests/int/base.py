@@ -18,14 +18,23 @@ __date__ = "$2011-02-27 16:16:57$"
 
 import unittest
 
+from ggbotapi.lib_2_1.authentication import Authentication
+from ggbotapi.lib_2_1.botmaster import Client, UrllibAdapter
+
 
 class BaseTestCase(unittest.TestCase):
     """
     Base class for test cases
     """
+    correctBotId = 1
+    correctLogin = 'login'
+    correctPass = 'pass'
 
     def setUp(self):
-        pass
+        self.auth = Authentication(botID=self.correctBotId, \
+            login=self.correctLogin, \
+            password=self.correctPass)
+        self.botmaster = Client(UrllibAdapter(), self.auth)
 
     def tearDown(self):
         pass
