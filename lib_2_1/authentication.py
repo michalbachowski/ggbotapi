@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from lxml import etree
 
-from botmaster import Client
-
 
 class Credentials(object):
     botID = None
@@ -18,6 +16,10 @@ class Credentials(object):
         self.token = root.find('token').text
         self.server = root.find('server').text
         self.port = int(root.find('port').text)
+
+    def __str__(self):
+        return '{"botID", %u, "token": "%s", "server": "%s", "port": %u}' \
+            % (self.botID, self.token, self.server, int(self.port))
 
 
 class Authentication(object):
@@ -42,4 +44,3 @@ class Authentication(object):
     def load_credentials(self):
         return self.botmaster.authorize(self.credentials.botID,\
             self.login, self.password)
-
