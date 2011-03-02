@@ -27,9 +27,9 @@ class AuthenticationTestCase(BaseTestCase):
     """
     Test cases for Authentication class
     """
-    correctBotId = 32578741
-    correctLogin = 'michal@bachowski.pl'
-    correctPass = 'j6fgxE7WoJ'
+    correctBotId = 123
+    correctLogin = 'login'
+    correctPass = 'pass'
 
     incorrectBotId = 123
     incorrectLogin = 'error'
