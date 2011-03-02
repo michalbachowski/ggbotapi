@@ -64,5 +64,9 @@ class MessageBuilderTestCase(BaseTestCase):
             'DAwMDAwOyBmb250LWZhbWlseTonTVMgU2hlbGwgRGxnIDInOyBmb250LXNpem' + \
             'U6OXB0OyAiPjxiPmh0bWwgY29udGVudDwvYj48L3NwYW4+AAA=')
 
+    def testPlainAndHtmlMessage(self):
+        self.mb.add_text('plain text').add_html('<b>html content</b>')
+        self.compare_to('ZgAAAAsAAAAAAAAAAAAAADxzcGFuIHN0eWxlPSJjb2xvcjojMDAwMDAwOyBmb250LWZhbWlseTonTVMgU2hlbGwgRGxnIDInOyBmb250LXNpemU6OXB0OyAiPjxiPmh0bWwgY29udGVudDwvYj48L3NwYW4+AHBsYWluIHRleHQA')
+
 if __name__ == "__main__":
     unittest.main() # run all tests
