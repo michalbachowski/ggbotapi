@@ -62,6 +62,9 @@ class MessageBuilder(object):
         self.html += message
         return self
 
+    def __str__(self):
+        return self.build(True)
+
     def build(self, includeImage=False):
         """
         Returns message. Caches build message for further retrival.
@@ -71,7 +74,6 @@ class MessageBuilder(object):
         """
         if self.response is None:
             self.response = self._build(includeImage)
-        print self.response
         return self.response
 
     def _build(self, includeImage=False):
@@ -93,9 +95,6 @@ class MessageBuilder(object):
                 self.txt, self.image(), self.format() )
 
     def lengths(self, includeImage=False):
-        print "%u%u%u%u" % (len(self.htmlFormatted)+1, len(self.txt)+1, \
-            self.calculateImageLength(includeImage), \
-            self.calculateFormatLength() )
         return struct.pack('IIII', \
             len(self.htmlFormatted)+1, len(self.txt)+1, \
             self.calculateImageLength(includeImage), \
@@ -127,7 +126,3 @@ class MessageBuilder(object):
         if 0==len(self.formatting):
             return ''
         return struct.pack('Cv', 0x02, len(self.formatting) + self.formatting)
-
-    def __str__(self):
-        return self.build(True)
-
