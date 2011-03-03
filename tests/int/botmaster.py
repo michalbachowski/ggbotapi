@@ -39,7 +39,7 @@ class BotmasterTestCase(BaseTestCase):
         message = MessageBuilder()
         message.add_text('tests')
         message.add_html('test bota')
-        print self.botmaster.send(message,[8714989,2012986],True)
+        self.botmaster.send(message,[123],True)
 
     def test_set_status(self):
         self.botmaster.set_status(Status(2),'testing...')
