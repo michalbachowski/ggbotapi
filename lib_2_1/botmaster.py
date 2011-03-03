@@ -148,8 +148,7 @@ class Client(object):
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
-        if not sendToOffline:
-            headers['Send-to-offline'] = 0
+        headers['Send-to-offline'] = int(sendToOffline)
         return self.call(url, headers, data)
 
     def set_status(self, status, desc):
@@ -170,7 +169,7 @@ class Client(object):
             'status': int(status),
             'desc': desc
         }
-        return self.call(url, headers, data)
+        return self.call(url, {}, data)
 
     def call(self, url, headers, data=None):
         """

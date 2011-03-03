@@ -19,7 +19,6 @@ __date__ = "$2011-03-23 14:02:16$"
 import base64
 
 import unittest
-from mockito import *
 
 from ggbotapi.lib_2_1.authentication import *
 from ggbotapi.lib_2_1.message import MessageBuilder
@@ -44,7 +43,7 @@ class BotmasterTestCase(BaseTestCase):
     def test_set_status(self):
         message = MessageBuilder()
         message.add_text('tests')
-        self.botmaster.send(message,[8714989],False)
+        self.botmaster.set_status(Status(2),'testing...')
 
 
 if __name__ == "__main__":
