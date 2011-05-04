@@ -30,7 +30,7 @@ class Authentication(object):
         self.password = password
         self.botmaster = botmaster
         self.valid = None
-        
+
     def is_valid(self):
         if self.valid is None:
             self.reload()
