@@ -46,7 +46,6 @@ class Status(object):
     DND = 33
     DND_WITH_DESC = 34
 
-
     def __init__(self, status):
         if status not in [self.FFC, self.BUSY, self.FFC_WITH_DESC, \
             self.BUSY_WITH_DESC, self.INVISIBLE, self.OFFLINE_WITH_DESC, \
@@ -57,6 +56,7 @@ class Status(object):
 
     def __int__(self):
         return self._status
+
 
 class Client(object):
 
@@ -140,14 +140,12 @@ class Client(object):
         """
         credentials = self.auth().credentials
         url = self.get_push_url('sendMessage')
-        data = {
-            'to': ','.join(map(str,recipients)),
-            'token': credentials.token,
-            'msg': message
-        }
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
+        data = {\
+            'to': ','.join(map(str, recipients)),\
+            'token': credentials.token,\
+            'msg': message}
+        headers = {\
+            'Content-Type': 'application/x-www-form-urlencoded'}
         headers['Send-to-offline'] = int(sendToOffline)
         return self.call(url, headers, data)
 
@@ -161,14 +159,13 @@ class Client(object):
         """
         credentials = self.auth().credentials
         url = self.get_push_url('setStatus')
-        if len(desc)>255:
+        if len(desc) > 255:
             raise TooLongStatusError('Status description could not be ' \
-                +'longer than 255 chars')
-        data = {
-            'token': credentials.token,
-            'status': int(status),
-            'desc': desc
-        }
+                + 'longer than 255 chars')
+        data = {\
+            'token': credentials.token,\
+            'status': int(status),\
+            'desc': desc}
         return self.call(url, {}, data)
 
     def call(self, url, headers, data=None):
@@ -206,14 +203,15 @@ class CommunicationAdapter(object):
 
 
 class UrllibAdapter(CommunicationAdapter):
- 
+
     def __init__(self, debug=0):
         """
         Prepares object instance
 
         int     debug
         """
-        self.opener = urllib2.build_opener(urllib2.HTTPHandler(debuglevel=debug))
+        self.opener = urllib2.build_opener(\
+            urllib2.HTTPHandler(debuglevel=debug))
 
     def call(self, url, headers, data=None):
         """
@@ -224,12 +222,12 @@ class UrllibAdapter(CommunicationAdapter):
         dict    data        data to send (using POST request)
         return  str
         """
-        if type(dict())==type(data):
+        if type(dict()) == type(data):
             data = urllib.urlencode(data)
-        request = urllib2.Request(url,data)
+        request = urllib2.Request(url, data)
         # append headers
         for (header, value) in headers.iteritems():
-            request.add_header( header, value )
+            request.add_header(header, value)
         # make request
         try:
             return self.opener.open(request).read()

@@ -84,21 +84,25 @@ class MessageBuilder(object):
         return  str
         """
         if self.txt is None:
-            raise NoTextMessageError('Text message could not be set to None (it could be however set to empty string)')
+            raise NoTextMessageError('Text message could not be set to None ' \
+                + '(it could be however set to empty string)')
         if self.html is None:
-            raise NoHtmlMessageError('HTML message could not be set to None (it could be however set to empty string)')
+            raise NoHtmlMessageError('HTML message could not be set to None ' \
+                + '(it could be however set to empty string)')
 
 
-        self.htmlFormatted = """<span style="color:#000000; font-family:'MS Shell Dlg 2'; font-size:9pt; ">%s</span>""" % self.html
+        self.htmlFormatted = ("""<span style="color:#000000; """ \
+            + """font-family:'MS Shell Dlg 2'; font-size:9pt; ">%s</span>""") \
+            % self.html
         return "%s%s\0%s\0%s%s" \
-            % ( self.lengths(includeImage), self.htmlFormatted, \
-                self.txt, self.image(), self.format() )
+            % (self.lengths(includeImage), self.htmlFormatted, \
+                self.txt, self.image(), self.format())
 
     def lengths(self, includeImage=False):
         return struct.pack('IIII', \
-            len(self.htmlFormatted)+1, len(self.txt)+1, \
+            len(self.htmlFormatted) + 1, len(self.txt) + 1, \
             self.calculateImageLength(includeImage), \
-            self.calculateFormatLength() )
+            self.calculateFormatLength())
 
     def calculateImageLength(self, includeImage=False):
         if self.img is None:
@@ -106,16 +110,17 @@ class MessageBuilder(object):
         if not includeImage:
             return 16
         return 16 + len(self.img)
-    
+
     def calculateFormatLength(self):
-        if 0==len(self.formatting):
+        if 0 == len(self.formatting):
             return 0
-        return len(self.formatting)+3
+        return len(self.formatting) + 3
 
     def image(self, includeImage=False):
         if self.img is None:
             return ''
-        checksum = "%08x%08x" % (binascii.crc32(self.img) & 0xffffffff, len(self.img))
+        checksum = "%08x%08x" % (binascii.crc32(self.img) & 0xffffffff, \
+            len(self.img))
         if includeImage:
             checksum += self.img
         return checksum
@@ -123,6 +128,6 @@ class MessageBuilder(object):
     def format(self):
         if self.formatting is None:
             return ''
-        if 0==len(self.formatting):
+        if 0 == len(self.formatting):
             return ''
         return struct.pack('Cv', 0x02, len(self.formatting) + self.formatting)
